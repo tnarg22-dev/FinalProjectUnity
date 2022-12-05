@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using Unity.Netcode;
 using UnityEngine;
+using Unity.Collections;
 
 
 public class PlayerNetworkMovement : NetworkBehaviour
@@ -10,22 +12,26 @@ public class PlayerNetworkMovement : NetworkBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float maximumSpeed = 20;
 
-    private NetworkVariable<int> randomNumber = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    private NetworkVariable<MyCustomData> randomNumber = new NetworkVariable<MyCustomData>(new MyCustomData{_int =56, _bool = true},NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
 
     public struct MyCustomData : INetworkSerializable
     {
         public int _int;
         public bool _bool;
+        public FixedString128Bytes _message;
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
-            throw new System.NotImplementedException();
+            serializer.SerializeValue(ref _int);
+            serializer.SerializeValue(ref _bool);
+            serializer.SerializeValue(ref _message);
         }
     }
     public override void OnNetworkSpawn()
     {
-        randomNumber.OnValueChanged += (int previousValue, int newValue) => {
-            Debug.Log(OwnerClientId + "; Random " + randomNumber.Value);  
+        randomNumber.OnValueChanged += (MyCustomData previousValue, MyCustomData newValue) => {
+            Debug.Log(OwnerClientId + "; " + newValue._int + "; " + newValue._bool + "; " + newValue._message); ;  
           };
     }
     private void Update()
@@ -35,9 +41,14 @@ public class PlayerNetworkMovement : NetworkBehaviour
         Movement();
             if (Input.GetKeyDown(KeyCode.T)) 
            {
-            randomNumber.Value = Random.Range(0,100);
+                randomNumber.Value = new MyCustomData
+                {
+                    _int = 10,
+                    _bool = false,
+                    _message = " Test out Test out"
+                };
             
-           }
+               }
         SpeedRegulation();
          
     }
@@ -64,3 +75,4 @@ public class PlayerNetworkMovement : NetworkBehaviour
              Rb.AddForce(moveDir * moveSpeed, ForceMode.Force);
     }
 }
+
