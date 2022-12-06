@@ -16,7 +16,8 @@ public class PlayerNetworkMovement : NetworkBehaviour
     public Vector3 PlayerLocation;
     public Vector3 ThisPlayerXpos;
     [SerializeField] private float speed;
-    [SerializeField] private float maximumSpeed = 20;
+    [SerializeField] private float maximumSpeed = 5;
+    public Animator m_Animator;
 
     private NetworkVariable<MyCustomData> randomNumber = new NetworkVariable<MyCustomData>(new MyCustomData { _int = 56, _bool = true }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
@@ -72,6 +73,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
 
 
         if (!IsOwner) return;
+        m_Animator.SetFloat("Speed", (float)(speed * 0.1));
 
         if (IsClient && !IsHost)
         {
@@ -110,7 +112,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
     {
 
         speed = Vector3.Magnitude(Rb.velocity);
-        
+        Debug.Log(speed);
 
         Vector3 moveDir = new Vector3(0, 0, 0);
 

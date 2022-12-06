@@ -324,6 +324,18 @@ PrefabInstance:
       value: 0.0008957293
       objectReference: {fileID: 0}
     - target: {fileID: 1188060373667542995, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+      propertyPath: m_Drag
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1188060373667542995, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+      propertyPath: m_Mass
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1188060373667542995, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1188060373667542995, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
@@ -643,6 +655,10 @@ PrefabInstance:
       propertyPath: Rb
       value: 
       objectReference: {fileID: 2071252729256116620}
+    - target: {fileID: 2956721980538107973, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+      propertyPath: m_Animator
+      value: 
+      objectReference: {fileID: 6695879942522536687}
     - target: {fileID: 3142017628538794362, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.0000000066356733
@@ -1537,7 +1553,7 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
---- !u!114 &5227741483167677893
+--- !u!114 &327104783077405767
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1546,7 +1562,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 92173351593017903}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Script: {fileID: 11500000, guid: ab5adba1db70822459920ed20bf24ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
