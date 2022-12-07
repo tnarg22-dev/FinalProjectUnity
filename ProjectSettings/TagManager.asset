@@ -11,6 +11,7 @@ TagManager:
   - SpawnPoint2
   - Ground
   - HitBox
+  - HeavyHitBox
   layers:
   - Default
   - TransparentFX

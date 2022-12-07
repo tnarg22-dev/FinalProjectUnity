@@ -24,6 +24,12 @@ public class PlayerNetworkMovement : NetworkBehaviour
     private NetworkVariable<MyCustomData> randomNumber = new NetworkVariable<MyCustomData>(new MyCustomData { _int = 56, _bool = true }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public bool onground;
 
+    public bool Hit;
+    public bool Blocking;
+    public int BlockCounter;
+    public bool GuardBroken;
+    public bool CanBlock;
+
     public struct MyCustomData : INetworkSerializable
     {
         public int _int;
@@ -51,6 +57,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
         {
 
             this.gameObject.transform.position = spawnpoint2.transform.position;
+            this.gameObject.tag = "Player2";
 
 
         }
@@ -58,7 +65,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
         {
 
             this.gameObject.transform.position = spawnpoint1.transform.position;
-
+            this.gameObject.tag = "Player1";
         }
 
 
@@ -110,7 +117,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
         {
             Destroy(this.gameObject);
         }
-
+        HandleHitBlocking(Hit, Blocking);
     }
     public void SpeedRegulation()
     {
@@ -209,13 +216,45 @@ public class PlayerNetworkMovement : NetworkBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void HandleHitBlocking(bool hit, bool blocking)
     {
-        if (collision.gameObject.CompareTag("HitBox"))
+      if(CanBlock == true)
         {
-            Health =- 5;
+            if (hit == true && blocking == true)
+                 {
+                    BlockCounter += 1;
+                    Hit = false;
+                 }
         }
+
+            if (BlockCounter >= 3)
+            {
+                GuardBroken = true;
+            
+            }
+
+            if (GuardBroken)
+            {
+                CanBlock = false;
+                Debug.Log("Guard is broken");
+            }
+
+            if (!CanBlock)
+            {
+                StartCoroutine(WaitForTime(1.5f));
+            }
+
+        
+        
     }
-    
+
+    private IEnumerator WaitForTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        CanBlock = true;
+        BlockCounter = 0;
+        GuardBroken = false;
+    }
+
 }
 
