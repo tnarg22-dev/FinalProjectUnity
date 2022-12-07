@@ -19,7 +19,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float maximumSpeed = 5;
     public Animator m_Animator;
-    public float jumpForce = 10f;
+    public float jumpForce = 160f;
 
     private NetworkVariable<MyCustomData> randomNumber = new NetworkVariable<MyCustomData>(new MyCustomData { _int = 56, _bool = true }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public bool onground;
@@ -171,7 +171,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
 
         }
 
-        CheckGrounded();
+       
         float moveSpeed = 10f;
 
 
@@ -184,26 +184,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
     // Draws raycast gizmo
    
     // Raycast that checks if the object is on the ground
-    void CheckGrounded()
-    {
-        RaycastHit hit;
-        Vector3 raycastDirection = Vector3.down;
-        float raycastDistance = 1;
-
-
-
-        if (Physics.Raycast(transform.position, raycastDirection, out hit, raycastDistance))
-        {
-            if (hit.collider.gameObject.CompareTag("Ground"))
-            {
-                onground = true;
-            } 
-            if (!hit.collider.gameObject.CompareTag("Ground"))
-            {
-                onground = false;
-            }
-        }
-    } 
+  
     void OnDrawGizmos()
     {
         Vector3 raycastDirection = Vector3.down;
@@ -238,7 +219,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
                   }
                     else
                     {
-                   // Blocking = false;
+                   Blocking = false;
                     
          
                      }
@@ -280,6 +261,19 @@ public class PlayerNetworkMovement : NetworkBehaviour
         BlockCounter = 0;
         GuardBroken = false;
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            onground = true;
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            onground = false;
+        }
+    }
 }
 
