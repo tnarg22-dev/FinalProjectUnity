@@ -117,6 +117,15 @@ public class PlayerNetworkMovement : NetworkBehaviour
         {
             Destroy(this.gameObject);
         }
+        if (Blocking == true)
+        {
+            m_Animator.SetBool("Blocking", true);
+        }
+        if (Blocking != true)
+        {
+            m_Animator.SetBool("Blocking", false);
+            BlockCounter = 0;
+        }
         HandleHitBlocking(Hit, Blocking);
     }
     public void SpeedRegulation()
@@ -218,13 +227,26 @@ public class PlayerNetworkMovement : NetworkBehaviour
 
     public void HandleHitBlocking(bool hit, bool blocking)
     {
-      if(CanBlock == true)
+       
+        if (CanBlock == true)
         {
-            if (hit == true && blocking == true)
-                 {
-                    BlockCounter += 1;
-                    Hit = false;
-                 }
+            if (Input.GetKey(KeyCode.N))
+                  {
+                    Blocking = true;
+                Debug.Log("blocking");
+              
+                  }
+                    else
+                    {
+                   // Blocking = false;
+                    
+         
+                     }
+                     if (Hit == true && Blocking == true)
+                     {
+                        BlockCounter += 1;
+                        Hit = false;
+                     }
         }
 
             if (BlockCounter >= 3)
@@ -236,6 +258,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
             if (GuardBroken)
             {
                 CanBlock = false;
+                Blocking = false;
                 Debug.Log("Guard is broken");
             }
 
@@ -243,6 +266,8 @@ public class PlayerNetworkMovement : NetworkBehaviour
             {
                 StartCoroutine(WaitForTime(1.5f));
             }
+       
+
 
         
         

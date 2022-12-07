@@ -902,6 +902,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2071252729256116620}
     - target: {fileID: 2956721980538107973, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+      propertyPath: CanBlock
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2956721980538107973, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_Animator
       value: 
       objectReference: {fileID: 6695879942522536687}
@@ -1780,6 +1784,24 @@ MonoBehaviour:
     TransitionDuration: 0
     TriggerNameHash: -316645540
     TransitionIndex: 0
+  - Layer: 0
+    OriginatingState: -453240694
+    DestinationState: -145957291
+    TransitionDuration: 0.25
+    TriggerNameHash: 2028307341
+    TransitionIndex: 2
+  - Layer: 0
+    OriginatingState: -432685563
+    DestinationState: 1014676182
+    TransitionDuration: 0.14534438
+    TriggerNameHash: -316645540
+    TransitionIndex: 1
+  - Layer: 0
+    OriginatingState: -432685563
+    DestinationState: -145957291
+    TransitionDuration: 0.24011827
+    TriggerNameHash: 2028307341
+    TransitionIndex: 2
   m_Animator: {fileID: 6695879942522536687}
 --- !u!114 &633022245137021815
 MonoBehaviour:
