@@ -9,6 +9,8 @@ TagManager:
   - Player2
   - SpawnPoint1
   - SpawnPoint2
+  - Ground
+  - HitBox
   layers:
   - Default
   - TransparentFX

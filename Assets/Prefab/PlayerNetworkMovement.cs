@@ -15,12 +15,14 @@ public class PlayerNetworkMovement : NetworkBehaviour
     public Vector3 OtherPlayerLocation;
     public Vector3 PlayerLocation;
     public Vector3 ThisPlayerXpos;
+    public float Health = 100;
     [SerializeField] private float speed;
     [SerializeField] private float maximumSpeed = 5;
     public Animator m_Animator;
+    public float jumpForce = 10f;
 
     private NetworkVariable<MyCustomData> randomNumber = new NetworkVariable<MyCustomData>(new MyCustomData { _int = 56, _bool = true }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
+    public bool onground;
 
     public struct MyCustomData : INetworkSerializable
     {
@@ -94,7 +96,20 @@ public class PlayerNetworkMovement : NetworkBehaviour
 
         SpeedRegulation();
 
-
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            m_Animator.SetTrigger("Punch"); 
+           Rb.velocity = new Vector3(0, 0, 0);
+        } 
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            m_Animator.SetTrigger("Punch2");
+           Rb.velocity = new Vector3(0, 0, 0);
+        }
+        if(Health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
 
     }
     public void SpeedRegulation()
@@ -115,7 +130,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
         Debug.Log(speed);
 
         Vector3 moveDir = new Vector3(0, 0, 0);
-
+        Jump();
         if (Input.GetKey(KeyCode.A))
         {
             if (!facingLeft)
@@ -125,7 +140,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
             }
             moveDir.x = -1f;
 
-            
+
         }
 
         if (Input.GetKey(KeyCode.D))
@@ -137,17 +152,70 @@ public class PlayerNetworkMovement : NetworkBehaviour
             }
 
             moveDir.x = +1f;
-           
+
         }
-       
-        
+
+        CheckGrounded();
         float moveSpeed = 10f;
 
-        
+
         Rb.AddForce(moveDir * moveSpeed, ForceMode.Force);
         Debug.Log("moving");
 
 
     }
+
+    // Draws raycast gizmo
+   
+    // Raycast that checks if the object is on the ground
+    void CheckGrounded()
+    {
+        RaycastHit hit;
+        Vector3 raycastDirection = Vector3.down;
+        float raycastDistance = 1;
+
+
+
+        if (Physics.Raycast(transform.position, raycastDirection, out hit, raycastDistance))
+        {
+            if (hit.collider.gameObject.CompareTag("Ground"))
+            {
+                onground = true;
+            } 
+            if (!hit.collider.gameObject.CompareTag("Ground"))
+            {
+                onground = false;
+            }
+        }
+    } 
+    void OnDrawGizmos()
+    {
+        Vector3 raycastDirection = Vector3.down;
+        float raycastDistance = .25f;
+
+        // Draws gizmo in scene for debugging
+        Gizmos.color = (onground) ? Color.green : Color.red;
+        Gizmos.DrawRay(transform.position, raycastDirection * raycastDistance);
+    }
+    void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && onground == true)
+        {
+            Rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            if (Input.GetKey(KeyCode.Space))
+            {
+                GetComponent<Rigidbody>().AddForce(Vector3.up * (jumpForce * Time.deltaTime), ForceMode.Impulse);
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("HitBox"))
+        {
+            Health =- 5;
+        }
+    }
+    
 }
 
