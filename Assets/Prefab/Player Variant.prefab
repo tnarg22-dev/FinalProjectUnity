@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2930747926976566015
 Transform:
   m_ObjectHideFlags: 0
@@ -27,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2458544784026059237}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0087, y: -0.3059, z: -0.007}
-  m_LocalScale: {x: 0.34421015, y: 0.34672907, z: 0.1347}
+  m_LocalRotation: {x: 0.41266438, y: -0.5821546, z: 0.47520724, w: -0.5147643}
+  m_LocalPosition: {x: 0.21, y: 1.057, z: 1.004}
+  m_LocalScale: {x: 0.34421024, y: 0.34672913, z: 0.13469999}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5457486186149358669}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 4594437058378393100}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 7.379, y: 91.063, z: -77.906}
 --- !u!33 &8063028411900594670
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -111,6 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  knockBack: 10
 --- !u!1 &6907747134542277612
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,13 +139,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6907747134542277612}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0087, y: -0.3059, z: -0.007}
-  m_LocalScale: {x: 0.3442102, y: 0.34672913, z: 0.13470007}
+  m_LocalRotation: {x: -0, y: -0.00000008940698, z: -0, w: 1}
+  m_LocalPosition: {x: -0.008699825, y: -0.30589998, z: -0.0070000025}
+  m_LocalScale: {x: 0.34421024, y: 0.34672913, z: 0.13470007}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4594437058378393100}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7475587913177057929
 MeshFilter:
@@ -222,6 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 5
+  knockBack: 10
 --- !u!1001 &919376437154510431
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1783,7 +1785,7 @@ MonoBehaviour:
   - Layer: 0
     OriginatingState: -453240694
     DestinationState: -145957291
-    TransitionDuration: 0.25
+    TransitionDuration: 0
     TriggerNameHash: 2028307341
     TransitionIndex: 2
   - Layer: 0
@@ -1845,11 +1847,6 @@ Rigidbody:
 --- !u!4 &4594437058378393100 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3675218590941679699, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
-  m_PrefabInstance: {fileID: 919376437154510431}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5457486186149358669 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5151736696236005906, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
   m_PrefabInstance: {fileID: 919376437154510431}
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &6695879942522536687 stripped

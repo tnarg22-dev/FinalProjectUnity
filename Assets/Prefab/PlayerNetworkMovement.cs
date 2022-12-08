@@ -16,6 +16,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
     public Vector3 PlayerLocation;
     public Vector3 ThisPlayerXpos;
     public float Health = 100;
+    public int Hitamount;
     [SerializeField] private float speed;
     [SerializeField] private float maximumSpeed = 5;
     public Animator m_Animator;
@@ -46,6 +47,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
     }
     public void Start()
     {
+        Application.targetFrameRate = 200;
         spawnpoint1 = GameObject.FindGameObjectWithTag("SpawnPoint1");
         spawnpoint2 = GameObject.FindGameObjectWithTag("SpawnPoint2");
 
@@ -105,13 +107,21 @@ public class PlayerNetworkMovement : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.J))
         {
-            m_Animator.SetTrigger("Punch"); 
-           Rb.velocity = new Vector3(0, 0, 0);
+            if (onground)
+            {
+                m_Animator.SetTrigger("Punch"); 
+              //   Rb.velocity = new Vector3(0, 0, 0);
+
+            }
+           
         } 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            m_Animator.SetTrigger("Punch2");
-           Rb.velocity = new Vector3(0, 0, 0);
+            if (onground)
+            {
+                m_Animator.SetTrigger("Punch2");
+                Rb.velocity = new Vector3(0, 0, 0);
+            }
         }
         if(Health <= 0)
         {
@@ -120,6 +130,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
         if (Blocking == true)
         {
             m_Animator.SetBool("Blocking", true);
+
         }
         if (Blocking != true)
         {
@@ -127,6 +138,12 @@ public class PlayerNetworkMovement : NetworkBehaviour
             BlockCounter = 0;
         }
         HandleHitBlocking(Hit, Blocking);
+
+        if (m_Animator.GetCurrentAnimatorStateInfo(0).IsName("FinalPunch"))
+        {
+            Rb.velocity = Vector2.zero;
+        } 
+
     }
     public void SpeedRegulation()
     {
@@ -172,7 +189,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
         }
 
        
-        float moveSpeed = 10f;
+        float moveSpeed = 5f;
 
 
         Rb.AddForce(moveDir * moveSpeed, ForceMode.Force);
@@ -215,8 +232,9 @@ public class PlayerNetworkMovement : NetworkBehaviour
                   {
                     Blocking = true;
                 Debug.Log("blocking");
-              
-                  }
+                Rb.velocity = new Vector3(0, 0, 0);
+
+            }
                     else
                     {
                    Blocking = false;
@@ -274,6 +292,17 @@ public class PlayerNetworkMovement : NetworkBehaviour
         {
             onground = false;
         }
+    }
+    private void FallDownEffect()
+    {
+        if (Hitamount == 0)
+        {
+            Invoke("ResetValue", 1.0f);
+        }
+    }
+    void ResetValue()
+    {
+        Hitamount = 0;
     }
 }
 
