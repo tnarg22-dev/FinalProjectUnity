@@ -5,7 +5,7 @@ using UnityEngine;
 public class HitBoxScripts : MonoBehaviour
 {
     public float damage;
-    public float knockBack = 10;
+    public float knockBack = 100;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +34,19 @@ public class HitBoxScripts : MonoBehaviour
             {
                 pnm.Health -= damage;
                 Debug.Log("Hit Enemy"); 
-                pnm.gameObject.GetComponent<Rigidbody>().AddForce((pnm.gameObject.transform.position - transform.position).normalized * knockBack, ForceMode.Impulse);
+            if(other.gameObject.transform.position.x < transform.position.x)
+                {
+                    Vector3 awayDirection = transform.position - other.transform.position * knockBack;
+                     other.transform.position += awayDirection * Time.deltaTime;
+
+                } 
+                else if(other.gameObject.transform.position.x > transform.position.x)
+                {
+                    Vector3 awayDirection = other.transform.position - transform.position * knockBack;
+                     other.transform.position += awayDirection * Time.deltaTime;
+
+                }
+               
 
             }
 

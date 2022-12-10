@@ -20,7 +20,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float maximumSpeed = 5;
     public Animator m_Animator;
-    public float jumpForce = 160f;
+    public float jumpForce = 0.00005f;
 
     private NetworkVariable<MyCustomData> randomNumber = new NetworkVariable<MyCustomData>(new MyCustomData { _int = 56, _bool = true }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public bool onground;
@@ -163,7 +163,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
         Debug.Log(speed);
 
         Vector3 moveDir = new Vector3(0, 0, 0);
-        Jump();
+        
         if (Input.GetKey(KeyCode.A))
         {
             if (!facingLeft)
@@ -185,15 +185,22 @@ public class PlayerNetworkMovement : NetworkBehaviour
             }
 
             moveDir.x = +1f;
-
+       
         }
 
        
-        float moveSpeed = 5f;
+        float moveSpeed = 5f *12;
 
 
         Rb.AddForce(moveDir * moveSpeed, ForceMode.Force);
         Debug.Log("moving");
+
+        if (Input.GetKeyDown(KeyCode.Space) && onground == true)
+        {
+            Rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Debug.Log("Jump");
+
+        }
 
 
     }
@@ -202,26 +209,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
    
     // Raycast that checks if the object is on the ground
   
-    void OnDrawGizmos()
-    {
-        Vector3 raycastDirection = Vector3.down;
-        float raycastDistance = .25f;
-
-        // Draws gizmo in scene for debugging
-        Gizmos.color = (onground) ? Color.green : Color.red;
-        Gizmos.DrawRay(transform.position, raycastDirection * raycastDistance);
-    }
-    void Jump()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && onground == true)
-        {
-            Rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            if (Input.GetKey(KeyCode.Space))
-            {
-                GetComponent<Rigidbody>().AddForce(Vector3.up * (jumpForce * Time.deltaTime), ForceMode.Impulse);
-            }
-        }
-    }
+ 
 
     public void HandleHitBlocking(bool hit, bool blocking)
     {
@@ -284,6 +272,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             onground = true;
+            m_Animator.SetBool("Grounded", true);
         }
     }
     private void OnCollisionExit(Collision collision)
@@ -291,6 +280,7 @@ public class PlayerNetworkMovement : NetworkBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             onground = false;
+            m_Animator.SetBool("Grounded", false);
         }
     }
     private void FallDownEffect()

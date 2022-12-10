@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2930747926976566015
 Transform:
   m_ObjectHideFlags: 0
@@ -553,11 +553,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1188060373667542995, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_Mass
-      value: 1
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1188060373667542995, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 0
+      propertyPath: m_AngularDrag
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1188060373667542995, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
+      propertyPath: m_Constraints
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 1211057149590539244, guid: c708a3b79cd542b42bbfedb17e213bc1, type: 3}
       propertyPath: m_LocalPosition.x
